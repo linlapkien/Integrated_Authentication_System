@@ -1,0 +1,23 @@
+{
+  "realm": "django-canvas-realm",
+  "enabled": true,
+  "ssoSessionIdleTimeout": 3600,
+  "ssoSessionMaxLifespan": 36000,
+  "clients": [
+    {
+      "clientId": "django-client",
+      "enabled": true,
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "redirectUris": ["http://localhost:8000/oidc/callback/"],
+      "webOrigins": ["http://localhost:8000"]
+    },
+    {
+      "clientId": "canvas-client",
+      "enabled": true,
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "redirectUris": ["http://localhost:3000/auth/callback"]
+    }
+  ]
+}

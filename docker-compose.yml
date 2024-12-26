@@ -1,0 +1,44 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  keycloak:
+    build:
+      context: ./keycloak
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+
+  canvas:
+    build:
+      context: ./canvas
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - keycloak
+    environment:
+      - CANVAS_LMS_DOMAIN=localhost
+      - KEYCLOAK_SERVER_URL=http://keycloak:8080
+
+  django:
+    build:
+      context: ./django_app
+      dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
+    depends_on:
+      - keycloak
+      - canvas
+    environment:
+      - DJANGO_SECRET_KEY=your-secret-key
+      - KEYCLOAK_SERVER_URL=http://keycloak:8080
+      - CANVAS_LMS_URL=http://canvas:3000
+
+volumes:
+  keycloak-data:

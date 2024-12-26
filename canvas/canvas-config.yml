@@ -1,0 +1,68 @@
+# Canvas LMS Configuration File
+
+# Production Environment Configuration
+production:
+  # Database Configuration
+  database:
+    adapter: postgresql
+    encoding: unicode
+    database: canvas_production
+    pool: 5
+    username: canvas
+    password: canvas_db_password
+    host: postgres
+    port: 5432
+
+  # Cache Store Configuration
+  cache_store: redis
+  redis:
+    host: redis
+    port: 6379
+    database: 1
+
+  # File Storage Configuration
+  storage: s3
+  s3:
+    bucket: canvas-lms-storage
+    access_key_id: your_aws_access_key
+    secret_access_key: your_aws_secret_key
+    region: us-east-1
+    endpoint: https://s3.amazonaws.com
+
+  # Authentication Settings
+  authentication:
+    # Keycloak OIDC Integration
+    provider: keycloak
+    keycloak:
+      realm: django-canvas-realm
+      server_url: http://keycloak:8080/realms/django-canvas-realm
+      client_id: canvas-lms-client
+      client_secret: canvas-secret-key-789012
+
+    # Additional Authentication Methods
+    allow_delegated_authentication: true
+    delegated_auth_timeout_minutes: 30
+
+    # LDAP Configuration (Optional)
+    ldap:
+      enabled: false
+      host: ldap.example.com
+      port: 389
+      base_dn: ou=users,dc=example,dc=com
+      bind_dn: cn=admin,dc=example,dc=com
+      bind_password: ldap_bind_password
+
+  # Security Configuration
+  security:
+    encryption_key: your_long_random_encryption_key
+    allowed_ip_ranges:
+      - 127.0.0.1/32
+      - 192.168.1.0/24
+
+    # Session Management
+    session_timeout_minutes: 120
+    concurrent_login_limit: 3
+
+  # Feature Flags
+  features:
+    # Learning Management System Features
